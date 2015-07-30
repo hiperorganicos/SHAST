@@ -1,7 +1,6 @@
 import processing.video.*;
 import blobDetection.*;
 import controlP5.*;
-import megamu.mesh.*;
 import ddf.minim.analysis.*;
 import ddf.minim.*;
 
