@@ -1,4 +1,3 @@
-
 import processing.video.*;
 import controlP5.*;
 import oscP5.*;
@@ -7,12 +6,12 @@ import ddf.minim.analysis.*;
 import ddf.minim.*;
 
 // ===== CONFIG. ABELHAS ===== //
-static final int n_abelhas = 15;
+static final int n_abelhas = 9;
 static final int altura_abelha = 55;
 // =========================== //
 
-static final int TELA_X = 1280;
-static final int TELA_Y = 720;
+static final int TELA_X = 1024;
+static final int TELA_Y = 768;
 
 NetAddress myBroadcastLocation; 
 OscP5 oscP5;
@@ -76,7 +75,7 @@ void draw(){
   drawShapes(blobs, edges);
   
   if(millis() - milisegundos > 15000){ // a cada 15 segundos (15000 milisegundos).
-    // Reinicializa as abelhas para manter a a tividade.
+    // Reinicializa as abelhas para manter a atividade.
     inicializar_abelhas();
     milisegundos = millis();
   }
