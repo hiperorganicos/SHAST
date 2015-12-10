@@ -8,6 +8,8 @@ A imagem gerada é projetada em uma caixa hexagonal espelhada, causando a sensa�
 Disponibilizamos aqui diversos códigos para o recebimento e visualização destes dados.
 
 Descrição completa: http://www.nano.eba.ufrj.br/s-h-a-s-t-sistema-habitacional-para-abelhas-sem-teto/
+
+<b>Caminhos OSC:</b> /shast/temperatura, /shast/luminosidade, /shast/umidade, /shast/solo (umidade do solo), /shast/coordenadas (2 argumentos, X e Y)
 <br><hr>
 <h3>Processing</h3>
 O Processing foi utilizado principalmente na visualização das abelhas utilizando suas posições, seja através de imagens da camera ou de coordenadas.
