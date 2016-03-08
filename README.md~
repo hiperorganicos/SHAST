@@ -1,11 +1,6 @@
 # SHAST
 Códigos para envio, recepção e visualização dos dados do <strong>Sistema Habitacional de Abelhas Sem Teto</strong>.
 <br><hr>
-<h3>Detecção de Movimento</h3>
-
-A pasta 'MotionDetection' cuida da detecção de movimento dentro da colméia, utilizando uma câmera com infravermelho, e envia as posições via OSC para o servidor do NANO.
-
-<br><hr>
 <h3>Funcionamento</h3>
 O SHAST é constituido por uma colméia monitorada por uma câmera e diversos sensores com uma placa Arduino. A câmera é utilizada para localizar algumas das abelhas e enviar, através de nosso Servidor OSC, suas coordenadas X e Y. AS leituras dos sensores também são enviadas através do servidor. Todos esses valores podem ser utilizados por qualquer pessoa em qualquer lugar do mundo.
 
