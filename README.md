@@ -1,9 +1,9 @@
 # SHAST
 Códigos para envio, recepção e visualização dos dados do <strong>Sistema Habitacional de Abelhas Sem Teto</strong>.
 <br><hr>
-<h3>Detecção de Movimento</h3>
+<h3>Motion Detection</h3>
 
-A pasta 'MotionDetection' cuida da detecção de movimento dentro da colméia, utilizando uma câmera com infravermelho, e envia as posições via OSC para o servidor do NANO.
+A pasta 'MotionDetection' cuida da detecção de movimento dentro da colméia, utilizando uma WebCam enviando as posições via OSC para o servidor do laboratório.
 
 <br><hr>
 <h3>Funcionamento</h3>
