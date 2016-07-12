@@ -12,7 +12,14 @@ Cuida da detecção de movimento dentro da colméia. Composto por uma Raspberry 
 Uses Python's BaseHTTPServer and SocketServer to host the server provider for the MJPEG Streaming, and OpenCV 2 for motion detection.
 
 ### old-motion.py
-Previous version of our motion tracker, used Flask as the MJPEG streaming server, not recommended for production, and OpenCV2 for motion detection.
+Previous version of our motion tracker, used Flask as the MJPEG streaming server, not recommended for production, and OpenCV2 for motion detection. Requires 'templates' folder.
+<hr>
+
+1. Install Python
+- Dependencies
+sudo apt-get install build-essential checkinstall
+sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
+>>>>>>> add Templates folder for old motion
 
 ##Setup
 * Install Python
