@@ -29,6 +29,8 @@ manager = multiprocessing.Manager()
 q = manager.Queue(3)
 
 showVideo = False
+max_area = 5000
+min_area = 800
 
 # Update shastcam.ignorelist.com DNS (public static IP)
 def updateDNS():
@@ -45,12 +47,10 @@ def camrunner(q):
     class CamHandler(BaseHTTPRequestHandler):
         queue = None
         def do_GET(self):
-            if self.path.endswith('.mjpeg'):
-                print("Path mjpg")
+            if self.path.endswith('.mjpg'):
                 self.send_response(200)
                 self.send_header('Content-type','multipart/x-mixed-replace; boundary=frame')
                 self.end_headers()
-                print("Entered get")
                 while True:
                     try:
                         if not self.queue.empty():
@@ -64,7 +64,7 @@ def camrunner(q):
                             self.send_header('Content-type','image/jpeg')
                             self.wfile.write('\r\n' + frame)
                             self.end_headers()
-                            #time.sleep(0.1) #slow the stream a bit
+                            time.sleep(0.01) #slow the stream a bit
                     except KeyboardInterrupt:
                         break
                 return
@@ -84,7 +84,7 @@ def camrunner(q):
         try:
             camhand = CamHandler
             camhand.queue = queuee
-            server = ThreadedHTTPServer(('localhost', 8080), camhand)
+            server = ThreadedHTTPServer(('0.0.0.0', 8080), camhand)
             print "server started"
             server.serve_forever()
         except KeyboardInterrupt:
@@ -182,19 +182,19 @@ while True:
     # loop over the contours
     for c in cnts:
         # if the contour is too small, ignore it
-        if cv2.contourArea(c) < args["min_area"]:
+        if cv2.contourArea(c) > max_area or cv2.contourArea(c) < min_area:
             continue
-
 
         (x, y, w, h) = cv2.boundingRect(c)
         sendOscMessage(x, y, w, h)
+
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
     # show the frame and record if the user presses a key
     # opens three video windows
     if showVideo:
         # compute the bounding box for the contour, draw it on the frame,
         # and update the text
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         # draw the text and timestamp on the frame
         cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),(10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
         cv2.imshow("Security Feed", frame)
