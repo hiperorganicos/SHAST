@@ -74,7 +74,7 @@ void draw(){
   
   drawShapes(blobs, edges);
   
-  if(millis() - milisegundos > 15000){ // a cada 15 segundos (15000 milisegundos).
+  if(millis() - milisegundos > 1500000){ // a cada 15 segundos (15000 milisegundos).
     // Reinicializa as abelhas para manter a atividade.
     inicializar_abelhas();
     milisegundos = millis();
@@ -88,11 +88,9 @@ void draw(){
 }
 
 void oscEvent(OscMessage message) {
-  println("Mensagem recebida: " + message);
-  if(message.checkAddrPattern("/shast/beebox/x")){
-    abelha[pos_abelha].setX((message.get(0).intValue() + message.get(1).intValue())/2);
-  } else if (message.checkAddrPattern("/shast/beebox/y")){
-    abelha[pos_abelha].setY((message.get(0).intValue() +  message.get(0).intValue())/2);
+  if(message.checkAddrPattern("/shast/coordenada")){
+    abelha[pos_abelha].setX((message.get(0).intValue() + message.get(2).intValue())/2);
+    abelha[pos_abelha].setY((message.get(1).intValue() +  message.get(3).intValue())/2);
     pos_abelha++;
     if(pos_abelha >= n_abelhas)
       pos_abelha = 0;
@@ -100,13 +98,11 @@ void oscEvent(OscMessage message) {
 }
 
 void conectar_nano(){
-  println("Reconectando.");
-  myBroadcastLocation = new NetAddress("146.164.80.56",22244);
+  myBroadcastLocation = new NetAddress("146.164.9.237",22244);
   String ip = NetInfo.wan();
   if(ip == null){
     osc_conectado = false;
   } else {
-    println("Chamada 2");
     osc_conectado = true;
     enviar_ip_ao_servidor(ip);
   }
@@ -119,11 +115,8 @@ void inicializar_abelhas(){
 
 void enviar_ip_ao_servidor(String ip){
   if(osc_conectado && ip != null){
-    println("Enviando ip ao servidor");
     OscMessage mOscMessage = new OscMessage("/request");
     mOscMessage.add(ip);
-    println("Mensagem: " + mOscMessage);
-    println("Local: " + myBroadcastLocation);
     oscP5.send(mOscMessage, myBroadcastLocation);
   } else {
     osc_conectado = false; 

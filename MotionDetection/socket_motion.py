@@ -105,7 +105,7 @@ def connectOsc():
         print("connecting to OSC server")
         updateDNS()
         client = OSCClient()
-        client.connect( ("146.164.80.56", 22244) )
+        client.connect( ("146.164.9.237", 22244) )
         timeLastConnection = time.time()
 
 connectOsc()
@@ -116,7 +116,7 @@ def sendOscMessage(_x, _y, _w, _h):
 
         connectOsc()
 
-        msg = OSCMessage("/shast/coordinates")
+        msg = OSCMessage("/shast/coordenadas")
         msg.extend([_x, _y, _w, _h])
         client.send( msg )
 
