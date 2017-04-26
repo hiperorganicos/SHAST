@@ -28,7 +28,7 @@ import StringIO
 manager = multiprocessing.Manager()
 q = manager.Queue(3)
 
-showVideo = False
+showVideo = True
 max_area = 5000
 min_area = 800
 
@@ -101,11 +101,10 @@ client = OSCClient()
 
 def connectOsc():
     global client, timeLastConnection
-    if timeLastConnection < time.time() - 7200:
-        print("connecting to OSC server")
-        updateDNS()
+    if timeLastConnection < time.time() - 20:
+        #updateDNS()
         client = OSCClient()
-        client.connect( ("146.164.9.237", 22244) )
+        client.connect( ("localhost", 22243) )
         timeLastConnection = time.time()
 
 connectOsc()
