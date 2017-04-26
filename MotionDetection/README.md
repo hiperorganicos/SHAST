@@ -39,7 +39,14 @@ pip install imutils
 pip install flask
 pip install pyosc
 pip install numpy
+pip install picamera (optional, use ==1.10 if the image is black)
 
 sudo apt-get install python-opencv
 
 4. Set autorun on boot
+crontab -e
+
+Add the command to be run with the path to the .py file.
+
+Ex:
+"@reboot python /home/pi/shast/MotionDetection/picam_socket_motion.py"
