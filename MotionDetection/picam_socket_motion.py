@@ -108,7 +108,7 @@ def connectOsc():
         print("connecting to OSC server")
         updateDNS()
         client = OSCClient()
-        client.connect( ("146.164.9.237", 22244) )
+        client.connect( ("localhost", 22243) )
         timeLastConnection = time.time()
 
 connectOsc()
@@ -131,7 +131,7 @@ ap.add_argument("-a", "--min-area", type=int, default=300, help="minimum area si
 args = vars(ap.parse_args())
 
 # Reading from Raspicam
-camera = PiCamera(resolution=(320, 240), framerate=32)
+camera = PiCamera(resolution=(320, 240), framerate=32, )
 rawCapture = PiRGBArray(camera, size=(320, 240))
 time.sleep(0.1)
 # initialize the first frame in the video stream
@@ -149,7 +149,9 @@ print("Started stream!")
 # loop over the frames of the video
 print("Starting image reading...")
 #while True:
-for imagetkn in camera.capture_continuous(rawCapture, format="bgr", splitter_port=1, use_video_port=True):
+camera.iso = 200
+camera.exposure_mode='off'
+for imagetkn in camera.capture_continuous(rawCapture, format="bgr", splitter_port=0, use_video_port=True):
     timestart = time.time()   
     try:
         frame = imagetkn.array
@@ -211,9 +213,13 @@ for imagetkn in camera.capture_continuous(rawCapture, format="bgr", splitter_por
     if key == ord("q"):
         break
     print("End: ", time.time()-timestart)
+    print(camera.analog_gain, camera.digital_gain)
     # give the PC (and OSC server) some time to breathe
     #time.sleep(0.1)
 
+print("Exp/mod", camera.exposure_mode)
+print("Exp/spd:", camera.exposure_speed)
+print("Sht/spd:", camera.shutter_speed)
 # cleanup the camera and close any open windows
-camera.release()
+camera.close()
 cv2.destroyAllWindows()
