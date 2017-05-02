@@ -13,6 +13,9 @@ static final int altura_abelha = 55;
 static final int TELA_X = 1024;
 static final int TELA_Y = 768;
 
+float multiplicador_x = TELA_X/320;
+float multiplicador_y = TELA_Y/768;
+
 NetAddress myBroadcastLocation; 
 OscP5 oscP5;
 ControlP5 controlP5;
@@ -34,7 +37,7 @@ float hexStr;
 void setup(){
   // Porta 22243 está configurada no servidor.
   // Servidor local de OSC. Recebe as mensagens.
-  oscP5 = new OscP5(this, 22243);
+  oscP5 = new OscP5(this, 22244);
   
   // Configurando o servidor do NANO
   conectar_nano();
@@ -74,7 +77,7 @@ void draw(){
   
   drawShapes(blobs, edges);
   
-  if(millis() - milisegundos > 15000){ // a cada 15 segundos (15000 milisegundos).
+  if(millis() - milisegundos > 1500000){ // a cada  segundos ( milisegundos).
     // Reinicializa as abelhas para manter a atividade.
     inicializar_abelhas();
     milisegundos = millis();
@@ -89,10 +92,10 @@ void draw(){
 
 void oscEvent(OscMessage message) {
   println("Mensagem recebida: " + message);
-  if(message.checkAddrPattern("/shast/beebox/x")){
-    abelha[pos_abelha].setX((message.get(0).intValue() + message.get(1).intValue())/2);
-  } else if (message.checkAddrPattern("/shast/beebox/y")){
-    abelha[pos_abelha].setY((message.get(0).intValue() +  message.get(0).intValue())/2);
+  if(message.checkAddrPattern("/shast/coordenadas")){
+    println("-- [" + message.get(0).intValue() + ", "+ message.get(1).intValue() + ", "+ message.get(2).intValue() + ", "+ message.get(3).intValue() + "]");
+    abelha[pos_abelha].setX((int)Math.floor(message.get(0).intValue() * multiplicador_x));
+    abelha[pos_abelha].setY((int)Math.floor(message.get(1).intValue() * multiplicador_y));
     pos_abelha++;
     if(pos_abelha >= n_abelhas)
       pos_abelha = 0;
@@ -101,31 +104,14 @@ void oscEvent(OscMessage message) {
 
 void conectar_nano(){
   println("Reconectando.");
-  myBroadcastLocation = new NetAddress("146.164.80.56",22244);
+  myBroadcastLocation = new NetAddress("localhost",22243);
   String ip = NetInfo.wan();
   if(ip == null){
     osc_conectado = false;
-  } else {
-    println("Chamada 2");
-    osc_conectado = true;
-    enviar_ip_ao_servidor(ip);
   }
 }
 
 void inicializar_abelhas(){
   for(int i = 0; i < n_abelhas; i++)
     abelha[i] = new Abelha();
-}
-
-void enviar_ip_ao_servidor(String ip){
-  if(osc_conectado && ip != null){
-    println("Enviando ip ao servidor");
-    OscMessage mOscMessage = new OscMessage("/request");
-    mOscMessage.add(ip);
-    println("Mensagem: " + mOscMessage);
-    println("Local: " + myBroadcastLocation);
-    oscP5.send(mOscMessage, myBroadcastLocation);
-  } else {
-    osc_conectado = false; 
-  }
 }
