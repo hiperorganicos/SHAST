@@ -1,9 +1,9 @@
 void controlEvent(ControlEvent theEvent) {
   if (theEvent.isGroup()) {
-    String groupname = theEvent.group().name();
+    String groupname = theEvent.group().getName();
     if (groupname.equals("checkbox") == true) {
-      blobs = (int)theEvent.group().arrayValue()[2] == 1;
-      edges = (int)theEvent.group().arrayValue()[3] == 1;
+      blobs = (int)theEvent.group().getArrayValue()[2] == 1;
+      edges = (int)theEvent.group().getArrayValue()[3] == 1;
     }
   }
 }
